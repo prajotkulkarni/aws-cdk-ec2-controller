@@ -44,4 +44,5 @@ jobs:
 
       # Deploy CDK Stack
       - name: Deploy CDK Stack
-        run: npx cdk deploy ApiEc2LambdaSnsStack --require-approval never
+        run: npx cdk deploy "*" --require-approval never
+
