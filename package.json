@@ -1,8 +1,8 @@
 {
-  "name": "aws-cdk-patterns",
+  "name": "cdk-ec2-controller",
   "version": "0.1.0",
   "bin": {
-    "aws-cdk-patterns": "bin/aws-cdk-patterns.js"
+    "aws-cdk-patterns": "bin/api-ec2-lambda-sns.js"
   },
   "scripts": {
     "build": "tsc",
@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "aws-cdk-lib": "2.172.0",
-    "constructs": "^10.0.0"
+    "constructs": "^10.0.0",
+    "@aws-sdk/client-ec2": "^3.637.0",
+    "@aws-sdk/client-sns": "^3.637.0"
   }
 }
