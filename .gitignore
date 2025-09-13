@@ -1,0 +1,36 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# CDK output
+cdk.out/
+*.d.ts
+
+# Environment / secrets
+.env
+*.env
+
+# IDE / Editor junk
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+logs/
+*.log
+
+# Coverage / test
+coverage/
+.jest/
+
+# Build artifacts
+dist/
+build/
