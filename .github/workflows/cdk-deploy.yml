@@ -2,13 +2,13 @@ name: cdk-deploy
 
 on:
   workflow_run:
-    workflows: ["cdk-check"]   # must match the name: above
+    workflows: ["cdk-check"]   # must match the name in cdk-check.yml
     types:
       - completed
 
 jobs:
   cdk-deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
     runs-on: ubuntu-latest
 
     steps:
