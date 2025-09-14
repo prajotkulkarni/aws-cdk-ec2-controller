@@ -1,0 +1,60 @@
+name: CDK CI/CD
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, labeled]
+  push:
+    branches:
+      - main
+
+jobs:
+  cdk-check:
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: CDK Synth
+        run: npx cdk synth
+
+      - name: CDK Diff
+        run: npx cdk diff
+
+  cdk-deploy:
+    if: |
+      github.event_name == 'pull_request' &&
+      github.event.action == 'labeled' &&
+      github.event.label.name == 'deploy' &&
+      github.event.pull_request.merged == true
+    needs: cdk-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: CDK Bootstrap
+        run: npx cdk bootstrap
+
+      - name: Deploy CDK Stack
+        run: npx cdk deploy "*" --require-approval never
