@@ -100,4 +100,4 @@ export class ApiEc2LambdaSnsStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'HttpApiUrl', { value: `${httpApi.apiEndpoint}/dev` });
     new cdk.CfnOutput(this, 'SnsTopicArn', { value: topic.topicArn });
   }
-}
+};
