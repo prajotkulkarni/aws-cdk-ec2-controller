@@ -2,9 +2,9 @@ name: cdk-deploy
 
 on:
   workflow_run:
-    workflows: ["cdk-check"]   # must match the name in cdk-check.yml
-    types:
-      - completed
+    # workflows: ["cdk-check"]   # must match the name in cdk-check.yml
+#     types:
+#       - completed
 
 jobs:
   cdk-deploy:
