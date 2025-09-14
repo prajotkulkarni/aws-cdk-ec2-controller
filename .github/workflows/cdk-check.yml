@@ -1,6 +1,9 @@
 name: cdk-check
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -10,25 +13,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
-      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Build project
       - name: Build project
         run: npm run build
 
-      # Configure AWS credentials (needed for diff)
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -36,10 +34,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      # Run CDK synth
       - name: CDK Synth
         run: npx cdk synth
 
-      # Run CDK diff
       - name: CDK Diff
         run: npx cdk diff
