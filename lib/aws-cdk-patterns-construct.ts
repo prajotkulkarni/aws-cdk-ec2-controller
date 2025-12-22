@@ -10,18 +10,55 @@ import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 export interface ApiEc2LambdaSnsProps {
   /**
    * Email address to subscribe to the SNS topic.
+   * An email confirmation will be sent to this address.
    */
   emailAddress: string;
 
   /**
-   * Optional Lambda code path (default: 'service')
+   * Path to the Lambda function source code.
+   * This path is resolved relative to the CDK app root (where cdk.json lives).
+   *
+   * @default 'service'
    */
   lambdaCodePath?: string;
 
   /**
-   * Optional API name (default: 'ec2-api')
+   * Name of the HTTP API Gateway.
+   *
+   * @default 'ec2-api'
    */
   apiName?: string;
+
+  /**
+   * Name of the SNS topic used for EC2 notifications.
+   *
+   * @default 'ec2-notification-topic'
+   */
+  topicName?: string;
+
+  /**
+   * Name of the Lambda function.
+   *
+   * NOTE:
+   * Lambda function names must be unique per region per account.
+   *
+   * @default 'ApiEc2LambdaSnsFunction'
+   */
+  lambdaName?: string;
+
+  /**
+   * Name of the IAM role assumed by the Lambda function.
+   *
+   * @default 'ApiEc2LambdaSnsRole'
+   */
+  roleName?: string;
+
+  /**
+   * Deployment stage name for the HTTP API.
+   *
+   * @default 'dev'
+   */
+  stageName?: string;
 }
 
 
@@ -64,7 +101,9 @@ export class ApiEc2LambdaSnsConstruct extends Construct {
       runtime: lambda.Runtime.NODEJS_20_X,
       handler: 'index.handler',
       functionName: props.lambdaName ?? 'ApiEc2LambdaSnsFunction',
-      code: lambda.Code.fromAsset('service'),
+      code: props.lambdaCodePath 
+        ? lambda.Code.fromAsset(props.lambdaCodePath) 
+        : lambda.Code.fromAsset('service'),
       role,
       environment: {
         TOPIC_ARN: topic.topicArn,
