@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-import { ApiEc2LambdaSnsStack } from '../lib/aws-cdk-patterns-stack';
+import { ApiEc2LambdaSnsStack } from '../lib/aws-cdk-patterns-construct';
 
 const app = new cdk.App();
 new ApiEc2LambdaSnsStack(app, 'AWS-CDK-Pattern', {
